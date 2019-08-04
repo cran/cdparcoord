@@ -5,8 +5,8 @@
 
 # output parallel coordinates plot as Rplots.pdf
 # name: name for plot
-draw <- 
-    function(partial, name="Parallel Coordinates", labelsOff, save=FALSE) {
+draw <- function(partial, name="Parallel Coordinates", labelsOff, save=FALSE) 
+{
         width <- ncol(partial)-1
 
         # get only numbers
@@ -272,8 +272,10 @@ interactivedraw <-
 
     # Convert pna to plot
     if (name == "") {
-        pna %>%
-            plot_ly(type = 'parcoords',
+        ## unnecessary dependency on pipes removed by NM
+        ## pna %>%
+        ##     plot_ly(type = 'parcoords',
+            plot_ly(pna,type = 'parcoords',
                     line = list(color = pna$freq,
                                 colorscale = 'Jet',
                                 showscale = scaleOn,
@@ -283,6 +285,8 @@ interactivedraw <-
                     dimensions = interactiveList)
     }
     else {
+        ## unnecessary dependency on pipes removed by NM
+        tmp <- 
         plot_ly(pna, type = 'parcoords',
                 line = list(color = pna$freq,
                             colorscale = 'Jet',
@@ -290,8 +294,9 @@ interactivedraw <-
                             reversescale = TRUE,
                             cmin = min_freq,
                             cmax = max_freq),
-                dimensions = interactiveList) %>%
-        plotly::layout(title=name)
+                ## dimensions = interactiveList) %>%
+                dimensions = interactiveList) 
+        plotly::layout(tmp,title=name)
     }
 }
 
@@ -331,8 +336,9 @@ discparcoord <- function(data, k = 5, grpcategory = NULL, permute = FALSE,
                          labelsOff = TRUE, NAexp = 1.0, countNAs = FALSE,
                          accentuate = NULL, accval = 100, inParallel = FALSE,
                          cls = NULL, differentiate = FALSE,
-                         saveCounts = TRUE, minFreq=NULL
-                         ) {
+                         saveCounts = FALSE, minFreq=NULL
+                         ) 
+{
 
     if (class(data)[1] == 'pna' && !is.null(grpcategory)) {
         stop('group case does not yet handle preprocessed data')
@@ -373,7 +379,7 @@ discparcoord <- function(data, k = 5, grpcategory = NULL, permute = FALSE,
         } else {  # need to compute tuple counts
             # get top k
             if (!inParallel) { partial <- 
-                tupleFreqs(data,k=k,NAexp=NAexp,countNAs,saveCounts,minFreq,
+                tupleFreqs(data,k=k,NAexp=NAexp,countNAs,saveCounts=saveCounts,minFreq,
                    accentuate=accentuate,accval=accval)
             }
             else {
@@ -408,7 +414,7 @@ discparcoord <- function(data, k = 5, grpcategory = NULL, permute = FALSE,
 
             if (!inParallel) {
                 partial <- tupleFreqs(ctgdata, k=k, NAexp=NAexp,
-                                     countNAs=countNAs)
+                                     countNAs=countNAs,saveCounts=saveCounts)
             } else {
                 partial <- clsTupleFreqs(cls, ctgdata, k=k, NAexp=NAexp,
                                         countNAs = countNAs)

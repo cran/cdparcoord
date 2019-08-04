@@ -6,7 +6,7 @@
 }
 
 \description{
-    Used with \code{saveCounts=TRUE} in \code{tupleFreqs} etc.
+    Used with \code{saveCounts} TRUE in \code{tupleFreqs} etc.
     to recover the tuple counts.
 }
 
@@ -18,13 +18,6 @@
     \item{nshow}{
         Dataset to show.
     }
-}
-
-\examples{
-   data(smallexample)
-   z <- tupleFreqs(smallexample)
-   z
-   showCounts()  # not too useful in this case
 }
 
 \author{
